@@ -1,9 +1,18 @@
 require 'rubygems'
-require 'crack'
+require 'nokogiri'
 require 'open-uri'
-require 'rest-client'
 
-#Latest posts of LinkedIn "Job Openings, Job Leads and Job Connections"
-url = "http://www.linkedin.com/groupItem?view=&gid=1976445&type=member&item=38544735&commentID=-1&qid=7bbff824-ff51-4612-93a4-5a14fd0fb8d2&goback=%2Egmp_1976445#lastComment"
+#Indeed Job Search
+page = Nokogiri::HTML(open("http://www.indeed.com/q-ruby-developer-l-new-york,-ny-jobs.html"))
 
-puts Crack::JSON.parse(RestClient.get(url))
+for i in 0...page.css("span[class='company']").length do
+  print page.css("span[class='company']")[i].text
+  print " - "
+  puts page.css("span[class='location']")[i].text
+
+  #TO DO: Scrape job title   
+ 
+  puts page.css("span[class='summary']")[i].text
+  puts
+end
+
